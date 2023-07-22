@@ -70,7 +70,7 @@ public class C04_SimpleArrayListGrow_NoInterface
     }
 
     @Benchmark
-    public int m01_basicReadPerformance()
+    public int m00_basicReadPerformance()
     {
         final int size = src.length();
         int count = 0;
@@ -89,7 +89,7 @@ public class C04_SimpleArrayListGrow_NoInterface
     }
 
     @Benchmark
-    public SimpleArrayList<String> m05_small_small()
+    public SimpleArrayList<String> m01_small_small()
     {
         result.clear();
         final int size = src.length();
@@ -108,7 +108,7 @@ public class C04_SimpleArrayListGrow_NoInterface
     }
 
     @Benchmark
-    public SimpleArrayList<String> m04_large_large()
+    public SimpleArrayList<String> m02_large_large()
     {
         result.clear();
         final int size = src.length();
@@ -127,7 +127,7 @@ public class C04_SimpleArrayListGrow_NoInterface
     }
 
     @Benchmark
-    public SimpleArrayList<String> m03_large_small()
+    public SimpleArrayList<String> m04_large_small()
     {
         result.clear();
         final int size = src.length();
@@ -146,7 +146,7 @@ public class C04_SimpleArrayListGrow_NoInterface
     }
 
     @Benchmark
-    public SimpleArrayList<String> m02_small_large()
+    public SimpleArrayList<String> m03_small_large()
     {
         result.clear();
         final int size = src.length();
