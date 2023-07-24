@@ -24,7 +24,7 @@ import org.openjdk.jmh.infra.BenchmarkParams;
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-@Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 10, time = 250, timeUnit = TimeUnit.MILLISECONDS)
 @Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 
@@ -49,23 +49,20 @@ public class C01_ArrayListGrow
         if (params.getBenchmark().endsWith("large_small"))
         {
             size = iterationCount <= params.getWarmup().getCount() ? 50 : 1;
-            System.out.printf("(Initial List Size %d) - ", size);
         }
         else if (params.getBenchmark().endsWith("small_large"))
         {
             size = iterationCount <= params.getWarmup().getCount() ? 1 : 50;
-            System.out.printf("(Initial List Size %d) - ", size);
         }
         else if (params.getBenchmark().endsWith("small_small"))
         {
             size = 1;
-            System.out.printf("(Initial List Size %d) - ", size);
         }
         else if (params.getBenchmark().endsWith("large_large"))
         {
             size = 50;
-            System.out.printf("(Initial List Size %d) - ", size);
         }
+        System.out.printf("(Initial List Size %d) - ", size);
         result= new ArrayList<>(size);
     }
 

@@ -49,23 +49,20 @@ public class C04_SimpleArrayListGrow_NoInterface
         if (params.getBenchmark().endsWith("large_small"))
         {
             size = iterationCount <= params.getWarmup().getCount() ? 50 : 1;
-            System.out.printf("(Initial List Size %d) - ", size);
         }
         else if (params.getBenchmark().endsWith("small_large"))
         {
             size = iterationCount <= params.getWarmup().getCount() ? 1 : 50;
-            System.out.printf("(Initial List Size %d) - ", size);
         }
         else if (params.getBenchmark().endsWith("small_small"))
         {
             size = 1;
-            System.out.printf("(Initial List Size %d) - ", size);
         }
         else if (params.getBenchmark().endsWith("large_large"))
         {
             size = 50;
-            System.out.printf("(Initial List Size %d) - ", size);
         }
+        System.out.printf("(Initial List Size %d) - ", size);
         result= new SimpleArrayList<>(size);
     }
 
