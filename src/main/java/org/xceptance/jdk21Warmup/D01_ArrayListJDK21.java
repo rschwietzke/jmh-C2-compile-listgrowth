@@ -39,7 +39,7 @@ public class D01_ArrayListJDK21
     {
         // src has to be "live" and not from the constant pool
         src = new String(src.toCharArray());
-        result= new ArrayList<>(50);
+        result = new ArrayList<>(50);
     }
 
     @Benchmark

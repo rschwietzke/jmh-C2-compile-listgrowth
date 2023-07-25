@@ -28,7 +28,7 @@ import org.openjdk.jmh.infra.BenchmarkParams;
 @Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 
-public class D04_ArrayListJDK21
+public class D03_ArrayListJDK21
 {
     List<String> result;
 
@@ -39,6 +39,7 @@ public class D04_ArrayListJDK21
     {
         // src has to be "live" and not from the constant pool
         src = new String(src.toCharArray());
+
         result= new ArrayList<>(50);
 
         // if we remove that, the warmup behavior of m00 is normal
