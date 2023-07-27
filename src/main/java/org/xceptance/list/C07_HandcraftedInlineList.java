@@ -62,7 +62,6 @@ public class C07_HandcraftedInlineList
         }
         System.out.printf("(Initial Array Size %d) - ", size);
         result= new String[size];
-        result2 = new String[50];
     }
 
     @Benchmark
