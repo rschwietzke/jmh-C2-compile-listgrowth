@@ -66,7 +66,7 @@ public class SimpleArrayListNoIntrinsics<T> implements List<T>
     {
         if (size == data.length)
         {
-            T[] dataNew = (T[]) new Object[size << 1];
+            T[] dataNew = (T[]) new Object[data.length << 1];
 
             for (int i = 0; i < size; i++)
             {
