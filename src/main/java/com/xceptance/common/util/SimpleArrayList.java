@@ -75,6 +75,56 @@ public class SimpleArrayList<T> implements List<T>
         return true;
     }
 
+    private void check()
+    {
+        if (size == data.length)
+        {
+            data = Arrays.copyOf(data, data.length << 1);
+        }
+    }
+
+    /**
+     * Add an element to the end of the list
+     *
+     * @param element the element to add
+     * @return true if added and for this impl it is always true
+     */
+    public boolean add2(T element)
+    {
+        check();
+
+        data[size] = element;
+        size++;
+
+        return true;
+    }
+
+    private T[] getData()
+    {
+        if (size == data.length)
+        {
+            data = Arrays.copyOf(data, data.length << 1);
+        }
+
+        return data;
+    }
+
+    /**
+     * Add an element to the end of the list
+     *
+     * @param element the element to add
+     * @return true if added and for this impl it is always true
+     */
+    public boolean add3(T element)
+    {
+        final T[] d = getData();
+
+        d[size] = element;
+        size++;
+
+        return true;
+    }
+
     /**
      * Return an element at index. No range checks at all.
      *
