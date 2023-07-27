@@ -28,7 +28,7 @@ import com.xceptance.common.util.SimpleArrayList;
 @Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class C05_SimpleArrayListGrow_GetDataIntroduced
+public class C06_SimpleArrayListGrow_GetDataIntroduced
 {
     int iterationCount;
     String src;
