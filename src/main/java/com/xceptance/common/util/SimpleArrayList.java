@@ -66,7 +66,9 @@ public class SimpleArrayList<T> implements List<T>
     {
         if (size == data.length)
         {
-            data = Arrays.copyOf(data, data.length << 1);
+            // avoid slow growth in the beginning and add 3 to avoid
+            // 1, 2, 4, 8, 16 and go with 1, 4, 10, 22, 46 instead
+            data = Arrays.copyOf(data, (data.length << 1) + 2);
         }
 
         data[size] = element;
