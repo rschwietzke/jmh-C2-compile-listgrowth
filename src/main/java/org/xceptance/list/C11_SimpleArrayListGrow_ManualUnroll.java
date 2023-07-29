@@ -28,8 +28,8 @@ import com.xceptance.common.util.SimpleArrayListNoIntrinsics;
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-@Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 10, time = 5, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 public class C11_SimpleArrayListGrow_ManualUnroll
 {

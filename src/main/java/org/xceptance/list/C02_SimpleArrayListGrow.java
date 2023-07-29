@@ -15,6 +15,10 @@ import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.BenchmarkParams;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import com.xceptance.common.util.SimpleArrayList;
 
@@ -256,4 +260,13 @@ Iteration  10: (Initial List Size 1) - 557.185 ns/op
         return result;
     }
 
+    public static void main(String[] args) throws RunnerException
+    {
+        Options opt = new OptionsBuilder()
+                .include("")
+                .forks(1)
+                .build();
+
+        new Runner(opt).run();
+    }
 }
