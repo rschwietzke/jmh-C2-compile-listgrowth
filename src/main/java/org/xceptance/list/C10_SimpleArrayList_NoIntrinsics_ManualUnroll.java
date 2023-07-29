@@ -29,7 +29,7 @@ import com.xceptance.common.util.SimpleArrayList;
 @Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class C10_SimpleArrayListGrow_ManualUnroll
+public class C10_SimpleArrayList_NoIntrinsics_ManualUnroll
 {
     int iterationCount;
     String src;
