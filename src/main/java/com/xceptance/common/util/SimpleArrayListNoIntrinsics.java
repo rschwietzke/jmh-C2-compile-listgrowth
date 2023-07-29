@@ -15,7 +15,6 @@
  */
 package com.xceptance.common.util;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -66,7 +65,7 @@ public class SimpleArrayListNoIntrinsics<T> implements List<T>
     {
         if (size == data.length)
         {
-            T[] dataNew = (T[]) new Object[data.length << 1];
+            T[] dataNew = (T[]) new Object[(data.length << 1) + 2];
 
             for (int i = 0; i < size; i++)
             {
@@ -109,7 +108,7 @@ public class SimpleArrayListNoIntrinsics<T> implements List<T>
     @Override
     public Object[] toArray()
     {
-        return Arrays.copyOf(data, size);
+        return data;
     }
 
     /**
@@ -121,7 +120,7 @@ public class SimpleArrayListNoIntrinsics<T> implements List<T>
     @Override
     public <T> T[] toArray(T[] array)
     {
-        return (T[]) Arrays.copyOf(data, size, array.getClass());
+        return (T[]) data;
     }
 
     /**
