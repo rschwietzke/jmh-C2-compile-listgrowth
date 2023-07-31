@@ -244,4 +244,4 @@ The former Enterprise version of Graal is significantly faster then its CE count
 
 ![Graal VM Enterprise Runtimes](/assets/c02-table-standard-graal-17.0.8.png)
 
-But it also bails out of the fast path similarly to OpenJDK.
+But it also bails out off the fast path similarly to OpenJDK.
