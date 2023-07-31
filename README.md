@@ -60,7 +60,7 @@ A standard ArrayList's runtime is always on the slower path of 530 ns independen
 
 We might not want to call it a bug, because there are good reasons for all of that but we seem to leave quite some performance potential untapped. Overall, this is a rather common programming pattern I guess, so maybe it is good for an investigation why we discard the fast code despite the relative rare list growth occurrences.
 
-![Measurement Data](/assets/c02-detailed-list.png.png)
+![Measurement Data](/assets/c02-detailed-list.png)
 
 Note: While writing this README and evaluating all the data again, by either measuring or varying, we arrived at the conclusion that something within JMH triggers a recompile due to a code path change and that causes the entire measurement method to be recompiled. Which gives us the slower runtime when the benchmark runs longer. Never the opposite, by the way.
 
