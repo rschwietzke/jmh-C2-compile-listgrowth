@@ -30,6 +30,23 @@ Iteration   9: (Initial List Size 1) - 556.943 ns/op
 Iteration  10: (Initial List Size 1) - 557.185 ns/op
 ```
 
+### Varying Runtimes
+
+![C02 Standard Runtime](/assets/c02-table-standard.png)
+
+Here you can see the varying runtimes of the testcase dependent on the initial data presented to the test code (warmup) and the later data during measurement. This is in parts similar to [Hotspot Compile Issue for While-Loops](https://github.com/rschwietzke/jmh-C2-compile). In contrast to that test setup, we see a late change of the compiled code here which is not explainable. It is also not sure when and how this is triggered.
+
+* 1) When we train our list with a small list and later present a small list again, we see 520 ns runtime
+* 2) When we train with large and present large later, we see 260 ns runtime
+* 3) When we train with small and go to large, we get a runtime of 520 ns
+* 4) When we train with large and go small, we get for a while 260 ns but suddenly the runtime change later to 560 ns.
+
+We never get an optimized runtime for 3) despite that 2) should be possible but the opposite happens (see 4).
+
+If we warmup way longer, this measurement does not change. If we run longer measurement iterations, the change still happens at about the same iteration count.
+
+Small means, the list has to grow from 1 element to about 40 to satisfy our space requirements, but the once grown list will be reused a millions times before we restart. Large means, we come with slightly oversized list and never need any size changes.
+
 ## Summary
 Because you might just say TL;DR now, here is a quick summary:
 
