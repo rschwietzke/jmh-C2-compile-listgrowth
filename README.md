@@ -237,7 +237,11 @@ The overall runtimes and behavior are the same, except for the issue above.
 ### GraalVM 17.0.8-ce
 This version of Graal is always slower than the OpenJDK. It also does not optimize the fast path at all. Even the plain m00 example is slower.
 
+![Graal CE Runtimes](c02-table-standard-graal-17.0.8-ce.png)
+
 ### GraalVM 17.0.8
 The former Enterprise version of Graal is significantly faster then its CE counterpart and OpenJDK. Amazingly, it even pushed the limits of m00 even further.
+
+![Graal VM Enterprise Runtimes](c02-table-standard-graal-17.0.8.png)
 
 But it also bails out of the fast path similarly to OpenJDK.
