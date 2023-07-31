@@ -239,9 +239,6 @@ When we disable tiered compilation the code runs as expected. There is not runti
 
 ## Misc
 
-### JDK 21 Warmup
-Please see also a related report which follows up on a finding related to comparing JDK 17 and JDK 21. Soon to be published.
-
 ### JDK 21
 The overall runtimes and behavior are the same, except for the issue above.
 
