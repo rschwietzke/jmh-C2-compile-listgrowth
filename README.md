@@ -6,7 +6,7 @@ As part of XLT, we crunch a lot of data and that requires to hunt for all possib
 
 While benchmarking, we found that our simple list implementation is tremendously faster and almost (at least for JDK 17) close to a plain array. So far so good. When we started to investigate an oddity regarding [C2 training patterns](https://github.com/rschwietzke/jmh-C2-compile), we stumbled upon another interesting observation.
 
-When we oversize our SimpleArrayList, so the backing array never has to grow, it is about twice as fast (just using a simple `add`) as when we undersize it and it has to grow. This would make sense when we always have to grow the array, but in our test, the array has to grow rarely. We setup the list before each iteration, we gives us one setup and about 2-5 million executions. The compiler creates fast code initially but over time decides to go with the slower version.
+When we oversize our SimpleArrayList, so the backing array never has to grow, it is about twice as fast (just using a simple `add`) as when we undersize it and it has to grow. This would make sense when we always have to grow the array, but in our test, the array has to grow rarely. We setup the list before each iteration, we gives us one setup and about 2-5 million executions. The compiler creates fast code initially, but over time, decides to go with the slower version.
 
 It is interesting that the JDK `ArrayList` does not show that issue but rather is always "slow".
 
@@ -38,39 +38,39 @@ The outlier test case is marked in yellow.
 
 Here you can see the varying runtimes of the testcase dependent on the initial data presented to the test code (warmup) and the later data during measurement. This is in parts similar to [Hotspot Compile Issue for While-Loops](https://github.com/rschwietzke/jmh-C2-compile). In contrast to that test setup, we see a late change of the compiled code here which is not explainable. It is also not sure when and how this is triggered.
 
-* 1) When we train our list with a small list and later present a small list again, we see 520 ns runtime
-* 2) When we train with large and present large later, we see 260 ns runtime
-* 3) When we train with small and go to large, we get a runtime of 520 ns
-* 4) When we train with large and go small, we get for a while 260 ns but suddenly the runtime change later to 560 ns.
+1) When we train our list with a small list and later present a small list again, we see 520 ns runtime
+2) When we train with large and present large later, we see 260 ns runtime
+3) When we train with small and go to large, we get a runtime of 520 ns
+4) When we train with large and go small, we get for a while 260 ns but suddenly the runtime change later to 560 ns.
 
-We never get an optimized runtime for 3) despite that 2) should be possible but the opposite happens (see 4).
+We never get an optimized runtime for iii), but we expect to find ourselves with ii) runtimes sooner or later. Only for iv) we see a later "retrain" which is also unexpected because the compiler stuck to the good version for quite some time.
 
-If we warmup way longer, this measurement does not change. If we run longer measurement iterations, the change still happens at about the same iteration count.
+If we warmup longer, this measurement does not change. If we run longer measurement iterations, the change still happens at about the same iteration count.
 
-Small means, the list has to grow from 1 element to about 40 to satisfy our space requirements, but the once grown list will be reused a millions times before we restart. Large means, we come with slightly oversized list and never need any size changes.
+Small means, the list has to grow from 1 element to about 40 to satisfy our space requirements, but the once grown list will be reused a millions times before we restart. Large means, we come with a slightly oversized list and never need any size changes.
 
 ## Summary
 Because you might just say TL;DR now, here is a quick summary:
 
 We can get about 260 ns runtime when we right size the list (about 5 million executions per second). If we present the compiler a list that must grow from 1 to 50 (by doubling every time) every 2 seconds and only in the beginning of an benchmark iteration, we get about 560 ns runtime (about 1.7 million executions per second).
 
-When digging into the compiled code and running experiments, we found out that this is likely related to loop unrolling and inlining. When the inline code has to change due to the list growth and is not longer inlineable and we also have to stop unrolling the loop, because the triggers (direct array access) are not longer there.
+Interestingly, the compiler sticks to the fast code for quite some time before giving up and the give up moment is strangely enough always in round 7 or 8 of the measurement, despite more warmup or longer measurement rounds.
+
+![Measurement Data](/assets/c02-detailed-list.png)
 
 A standard ArrayList's runtime is always on the slower path of 530 ns independent of being right sized or not.
 
 We might not want to call it a bug, because there are good reasons for all of that but we seem to leave quite some performance potential untapped. Overall, this is a rather common programming pattern I guess, so maybe it is good for an investigation why we discard the fast code despite the relative rare list growth occurrences.
 
-![Measurement Data](/assets/c02-detailed-list.png)
+Note: While writing this README and evaluating all the data again, by either measuring or varying, we arrived at the conclusion that something within JMH triggers a recompile due to a code path change and that causes the entire measurement method to be recompiled. Which gives us the slower runtime when the benchmark runs longer. Cannot prove it, besides the PrintCompilation shows the method under test (JIT level 3 code) being discarded and replaced with a new JIT level 4 one.
 
-Note: While writing this README and evaluating all the data again, by either measuring or varying, we arrived at the conclusion that something within JMH triggers a recompile due to a code path change and that causes the entire measurement method to be recompiled. Which gives us the slower runtime when the benchmark runs longer. Never the opposite, by the way.
-
-When we add `-XX:-TieredCompilation`, the issues disappears which might suggest that a simple C2 compile run (no additional data from level 3 profiling added) is the best strategy.
+When we add `-XX:-TieredCompilation`, the issue disappears. That might suggest that a simple C2 compile run (no additional data from level 3 profiling added) is the best strategy.
 
 ## The Questions
 
-Why do we give up our fast code after a while? Why so late and why at all? Each iteration is about 4 million invocations and only 10 of these see the list grow. The list growth itself occurs about 10 x 5 times = 50 (1, 4, 10, 22, 46). This feels like a heavily penalty.
+Why do we give up our fast code after a while? Why so late and why at all? Each iteration is about 4 million invocations and only 10 of these see the list grow. The list growth itself occurs about 10 x 5 times = 50 (1, 4, 10, 22, 46). This feels like a heavy penalty.
 
-Why is a no tiered-compilation resulting in almost perfect code that stays in place? What JMH code is triggering the later recompile when running with classic JDK JIT settings?
+Why is a no tiered-compilation resulting in almost perfect code that stays in place? What JMH code is (accidently) triggering the later recompile when running with classic JDK JIT settings?
 
 ## The Code
 
