@@ -39,8 +39,9 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>Minimal benchmark for a C2 compile odditity in relation to a rate
-        method branch execution</name>
+    <name>
+        Small benchmark to get behind a compile pattern which is hard to explain.
+    </name>
 
     <dependencies>
         <dependency>
