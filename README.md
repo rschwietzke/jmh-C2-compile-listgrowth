@@ -189,13 +189,15 @@ To validate our measurements and try out theories, we used the following OpenJDK
 
 The inspection reveled that the JIT unrolls the loop and inlines some parts of the list. Both behaviors are expected but when viewed closer, the unrolling happens only because of the inlining as it seems (just guessed by me).
 
-The extra test runs have been only executed the C02 test case. You find all data in the sheet: [Measurement Data in a shared Google spreadsheet](https://docs.google.com/spreadsheets/d/1t9zJeR9zS7q5mlkZNjLktGVgFCBbk6zurzzIy4Rers8/edit?usp=sharing). The header of the table carries the parameters and some plain naming.
+The extra test runs have only executed the C02 test case. You find all data in the sheet: [Measurement Data in a shared Google spreadsheet](https://docs.google.com/spreadsheets/d/1t9zJeR9zS7q5mlkZNjLktGVgFCBbk6zurzzIy4Rers8/edit?usp=sharing). The header of the table carries the parameters and some plain naming.
 
 ### No Loop Unrolling
 
 When we prevent loop unrolling by setting `-XX:LoopUnrollLimit=0`, we see, as expected, that the plain m00 loop runtime increases from 200 ns to 350 ns. So, stopping unrolling works.
 
 The overall runtime behavior of the remaining methods stays the same, only the difference of our Large_Small test case between the fast and the slow path changed.
+
+![No Loop Unrolling](/assets/c02-table-no-unrolling.png)
 
 Conclusion: So, loop unrolling is not why the code behaves this way.
 
@@ -205,6 +207,9 @@ Because we saw that code is inlined, let's stop inlining of the `add` method cod
 
 Our m00 runtime does not change, which is expected, because we don't use `add` there. All the other methods runs at the same speed now and the max runtime is about just 30 ns slower. All previously "fast" methods are now slow and behave like the previously "slow" ones.
 
+![No Inlining of Add Method](/assets/c02-table-no-inlining.png)
+
+
 Conclusion: Inlining makes a difference but the runtime difference is small. The runtime difference for unrolling was high. So let's assume that the speed advantage comes from unrolling but the runtime behavior change is connected to inlining.
 
 ### No inlining and no unrolling
@@ -213,6 +218,8 @@ Based on our previous two measurements, let's combine both.
 
 We see m00 behave as expected without unrolling. In addition, there is no other runtime difference to our no inlining version, hence the inlining seems to allow unrolling in the first place. No inlining, no unrolling.
 
+![No inlining, no unrolling](/assets/c02-table-no-unrolling-no-inlining.png)
+
 ### Manual unrolling
 
 When the JIT does not inline, it cannot directly access/see the list's backing array, hence it also does not unroll the loop.
@@ -220,11 +227,15 @@ So, let's unroll the loop manually with test case C10.
 
 Measurements are faster for manually unrolled loops (that is a surprise) but we still see our runtime change. When we disable loop unrolling by the JIT now, we don't see any measurement difference, which proves the manual unroll success. Still, the runtime change occurs.
 
+![](/assets/c10-table-all-measurements.png)
+
 So, it is not the unrolling at the end of the day that causes the change, rather just some recompile of the method which also occurs when we manually unroll. So it is likely the inlining again.
 
 ### Disabled TieredCompilation
 
 When we disable tiered compilation the code runs as expected. There is not runtime change anymore for our Large_Small method and it is always running fast. For everything trained with list growth, we are on the slow path, all trained with a not growing list, we are on the fast path.
+
+![](/assets/c02-table-no-tiered-compilation.png)
 
 ## Misc
 
