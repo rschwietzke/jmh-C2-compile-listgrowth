@@ -37,7 +37,7 @@ C08_SimpleArrayListNoIntrinsics.m04_large_small           avgt   10  298.106 ± 
 @Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class C08_SimpleArrayListNoIntrinsics
+public class C08_SimpleArrayList_NoIntrinsics
 {
     int iterationCount;
     String src;

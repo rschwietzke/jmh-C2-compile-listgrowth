@@ -1,6 +1,5 @@
 package org.xceptance.list;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openjdk.jmh.annotations.Benchmark;
@@ -38,7 +37,7 @@ import com.xceptance.common.util.SimpleArrayList;
 @Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class C04_SimpleArrayListGrow_NoInterface
+public class C04_SimpleArrayList_NoInterface
 {
     int iterationCount;
     String src;

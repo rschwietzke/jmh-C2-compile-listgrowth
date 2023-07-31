@@ -38,7 +38,7 @@ import com.xceptance.common.util.SimpleArrayList;
 @Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class C09_SimpleArrayListGrow_ReadCharArray
+public class C09_SimpleArrayList_ReadCharArray
 {
     int iterationCount;
     char[] src;

@@ -16,22 +16,30 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.BenchmarkParams;
 
-import com.xceptance.common.util.SimpleArrayList;
 import com.xceptance.common.util.SimpleArrayListNoIntrinsics;
 
 /**
  * C02 in a version where we unrolled the loop manually and we also don't use
- * any Arrays.copy of in our code
+ * any Arrays.copy of in our code. This is using a plain loop copy instead.
+ *
+ * Warning: Inline measurement values are not from the Google Cloud machine as seen in C01 to C09!
+ *
+Benchmark                                                               Mode  Cnt    Score     Error  Units
+C11_SimpleArrayList_NoIntrinsics_ManualUnroll.m00_basicReadPerformance  avgt   10  190.172 ±   2.580  ns/op
+C11_SimpleArrayList_NoIntrinsics_ManualUnroll.m01_small_small           avgt   10  651.390 ±  18.863  ns/op
+C11_SimpleArrayList_NoIntrinsics_ManualUnroll.m02_large_large           avgt   10  205.419 ±   9.178  ns/op
+C11_SimpleArrayList_NoIntrinsics_ManualUnroll.m03_small_large           avgt   10  615.684 ±   8.812  ns/op
+C11_SimpleArrayList_NoIntrinsics_ManualUnroll.m04_large_small           avgt   10  355.455 ± 347.044  ns/op
 
  * @author Rene Schwietzke <r.schwietzke@xceptance.com>
  */
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-@Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 10, time = 5, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class C11_SimpleArrayListGrow_ManualUnroll
+public class C11_SimpleArrayList_NoIntrinsics_ManualUnroll
 {
     int iterationCount;
     String src;
@@ -70,6 +78,21 @@ public class C11_SimpleArrayListGrow_ManualUnroll
     }
 
     /*
+# Warmup Iteration   1: (Initial List Size 0) - 227.237 ns/op
+# Warmup Iteration   2: (Initial List Size 0) - 226.634 ns/op
+# Warmup Iteration   3: (Initial List Size 0) - 194.210 ns/op
+# Warmup Iteration   4: (Initial List Size 0) - 189.367 ns/op
+# Warmup Iteration   5: (Initial List Size 0) - 187.985 ns/op
+Iteration   1: (Initial List Size 0) - 192.995 ns/op
+Iteration   2: (Initial List Size 0) - 189.628 ns/op
+Iteration   3: (Initial List Size 0) - 192.771 ns/op
+Iteration   4: (Initial List Size 0) - 188.358 ns/op
+Iteration   5: (Initial List Size 0) - 189.649 ns/op
+Iteration   6: (Initial List Size 0) - 191.003 ns/op
+Iteration   7: (Initial List Size 0) - 187.753 ns/op
+Iteration   8: (Initial List Size 0) - 190.228 ns/op
+Iteration   9: (Initial List Size 0) - 190.202 ns/op
+Iteration  10: (Initial List Size 0) - 189.131 ns/op
 
      */
     @Benchmark
@@ -116,6 +139,21 @@ public class C11_SimpleArrayListGrow_ManualUnroll
     }
 
     /*
+# Warmup Iteration   1: (Initial List Size 1) - 223.159 ns/op
+# Warmup Iteration   2: (Initial List Size 1) - 355.786 ns/op
+# Warmup Iteration   3: (Initial List Size 1) - 646.240 ns/op
+# Warmup Iteration   4: (Initial List Size 1) - 640.232 ns/op
+# Warmup Iteration   5: (Initial List Size 1) - 644.565 ns/op
+Iteration   1: (Initial List Size 1) - 643.204 ns/op
+Iteration   2: (Initial List Size 1) - 679.551 ns/op
+Iteration   3: (Initial List Size 1) - 662.917 ns/op
+Iteration   4: (Initial List Size 1) - 651.753 ns/op
+Iteration   5: (Initial List Size 1) - 654.341 ns/op
+Iteration   6: (Initial List Size 1) - 653.585 ns/op
+Iteration   7: (Initial List Size 1) - 641.130 ns/op
+Iteration   8: (Initial List Size 1) - 648.076 ns/op
+Iteration   9: (Initial List Size 1) - 638.344 ns/op
+Iteration  10: (Initial List Size 1) - 641.000 ns/op
 
      */
     @Benchmark
@@ -161,6 +199,21 @@ public class C11_SimpleArrayListGrow_ManualUnroll
     }
 
     /*
+# Warmup Iteration   1: (Initial List Size 50) - 204.188 ns/op
+# Warmup Iteration   2: (Initial List Size 50) - 176.011 ns/op
+# Warmup Iteration   3: (Initial List Size 50) - 199.562 ns/op
+# Warmup Iteration   4: (Initial List Size 50) - 208.591 ns/op
+# Warmup Iteration   5: (Initial List Size 50) - 219.432 ns/op
+Iteration   1: (Initial List Size 50) - 205.040 ns/op
+Iteration   2: (Initial List Size 50) - 216.537 ns/op
+Iteration   3: (Initial List Size 50) - 195.168 ns/op
+Iteration   4: (Initial List Size 50) - 203.693 ns/op
+Iteration   5: (Initial List Size 50) - 202.206 ns/op
+Iteration   6: (Initial List Size 50) - 203.818 ns/op
+Iteration   7: (Initial List Size 50) - 210.692 ns/op
+Iteration   8: (Initial List Size 50) - 206.399 ns/op
+Iteration   9: (Initial List Size 50) - 210.711 ns/op
+Iteration  10: (Initial List Size 50) - 199.923 ns/op
 
      */
     @Benchmark
@@ -206,6 +259,21 @@ public class C11_SimpleArrayListGrow_ManualUnroll
     }
 
     /*
+# Warmup Iteration   1: (Initial List Size 1) - 204.551 ns/op
+# Warmup Iteration   2: (Initial List Size 1) - 347.311 ns/op
+# Warmup Iteration   3: (Initial List Size 1) - 656.063 ns/op
+# Warmup Iteration   4: (Initial List Size 1) - 623.640 ns/op
+# Warmup Iteration   5: (Initial List Size 1) - 636.381 ns/op
+Iteration   1: (Initial List Size 50) - 618.308 ns/op
+Iteration   2: (Initial List Size 50) - 612.823 ns/op
+Iteration   3: (Initial List Size 50) - 614.378 ns/op
+Iteration   4: (Initial List Size 50) - 612.570 ns/op
+Iteration   5: (Initial List Size 50) - 613.406 ns/op
+Iteration   6: (Initial List Size 50) - 611.770 ns/op
+Iteration   7: (Initial List Size 50) - 614.254 ns/op
+Iteration   8: (Initial List Size 50) - 616.721 ns/op
+Iteration   9: (Initial List Size 50) - 611.499 ns/op
+Iteration  10: (Initial List Size 50) - 631.115 ns/op
 
      */
     @Benchmark
@@ -251,6 +319,21 @@ public class C11_SimpleArrayListGrow_ManualUnroll
     }
 
     /*
+# Warmup Iteration   1: (Initial List Size 50) - 197.934 ns/op
+# Warmup Iteration   2: (Initial List Size 50) - 177.334 ns/op
+# Warmup Iteration   3: (Initial List Size 50) - 196.415 ns/op
+# Warmup Iteration   4: (Initial List Size 50) - 223.578 ns/op
+# Warmup Iteration   5: (Initial List Size 50) - 200.649 ns/op
+Iteration   1: (Initial List Size 1) - 178.723 ns/op
+Iteration   2: (Initial List Size 1) - 187.862 ns/op
+Iteration   3: (Initial List Size 1) - 175.002 ns/op
+Iteration   4: (Initial List Size 1) - 178.057 ns/op
+Iteration   5: (Initial List Size 1) - 173.140 ns/op
+Iteration   6: (Initial List Size 1) - 173.638 ns/op
+Iteration   7: (Initial List Size 1) - 616.051 ns/op
+Iteration   8: (Initial List Size 1) - 617.964 ns/op
+Iteration   9: (Initial List Size 1) - 637.685 ns/op
+Iteration  10: (Initial List Size 1) - 616.425 ns/op
 
      */
     @Benchmark

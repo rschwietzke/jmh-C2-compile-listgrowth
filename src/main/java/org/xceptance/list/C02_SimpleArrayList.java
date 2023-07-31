@@ -42,7 +42,7 @@ import com.xceptance.common.util.SimpleArrayList;
 @Warmup(iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
-public class C02_SimpleArrayListGrow
+public class C02_SimpleArrayList
 {
     int iterationCount;
     String src;
@@ -260,11 +260,15 @@ Iteration  10: (Initial List Size 1) - 557.185 ns/op
         return result;
     }
 
+    /**
+     * This is just here for debugging purposes. Don't use that to run the benchmark
+     * for measurement purposes.
+     */
     public static void main(String[] args) throws RunnerException
     {
         Options opt = new OptionsBuilder()
                 .include("")
-                .forks(1)
+                .forks(0)
                 .build();
 
         new Runner(opt).run();

@@ -37,7 +37,7 @@ import org.openjdk.jmh.infra.BenchmarkParams;
 @Measurement(iterations = 10, time = 2, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 
-public class C03_ArrayListGrow_NoInterface
+public class C03_ArrayList_NoInterface
 {
     int iterationCount;
     String src;
