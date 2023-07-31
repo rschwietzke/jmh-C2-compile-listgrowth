@@ -33,7 +33,8 @@ Iteration  10: (Initial List Size 1) - 557.185 ns/op
 ### Runtimes
 
 ![C02 Standard Runtime](/assets/c02-table-standard.png)
-*The outlier test case is marked in yellow*
+
+The outlier test case is marked in yellow.
 
 Here you can see the varying runtimes of the testcase dependent on the initial data presented to the test code (warmup) and the later data during measurement. This is in parts similar to [Hotspot Compile Issue for While-Loops](https://github.com/rschwietzke/jmh-C2-compile). In contrast to that test setup, we see a late change of the compiled code here which is not explainable. It is also not sure when and how this is triggered.
 
