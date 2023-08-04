@@ -77,12 +77,31 @@ public class SimpleArrayList<T> implements List<T>
         return true;
     }
 
+    /**
+     * Add an element to the end of the list without a range check
+     *
+     * @param element the element to add
+     * @return true if added and for this impl it is always true
+     */
+    public boolean addUnsafe(T element)
+    {
+        data[size] = element;
+        size++;
+
+        return true;
+    }
+
     private void check()
     {
         if (size == data.length)
         {
             data = Arrays.copyOf(data, data.length << 1);
         }
+    }
+
+    public void increaseCapacity()
+    {
+        data = Arrays.copyOf(data, data.length << 1);
     }
 
     /**
@@ -145,6 +164,14 @@ public class SimpleArrayList<T> implements List<T>
     public int size()
     {
         return size;
+    }
+
+    /**
+     * Returns the size of this list
+     */
+    public boolean reachedCapacity()
+    {
+        return size == data.length;
     }
 
     /**
